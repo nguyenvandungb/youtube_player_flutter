@@ -11,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_inappwebview: ^6.0.0
+  flutter_inappwebview:
+    url: https://github.com/nguyenvandungb/flutter_inappwebview.git
 
 dev_dependencies:
   flutter_test:
