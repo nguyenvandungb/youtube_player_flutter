@@ -64,6 +64,26 @@ class _RawYoutubePlayerState extends State<RawYoutubePlayer>
     }
   }
 
+  int? _safeParseErrorCode(dynamic errorArg) {
+    try {
+      if (errorArg == null) return null;
+
+      if (errorArg is int) {
+        return errorArg;
+      }
+
+      if (errorArg is String) {
+        return int.tryParse(errorArg);
+      }
+
+      // fallback cho mọi kiểu lạ (Map, double, bool, etc.)
+      return int.tryParse(errorArg.toString());
+    } catch (_) {
+      // tuyệt đối không cho crash
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     controller = YoutubePlayerController.of(context);
@@ -186,8 +206,9 @@ class _RawYoutubePlayerState extends State<RawYoutubePlayer>
               handlerName: 'Errors',
               callback: (args) {
                 final errorArg = args.first;
-                final String errorCode = errorArg?.toString() ?? 'unknown';
-                controller!.updateValue(
+                final int? errorCode = _safeParseErrorCode(errorArg);
+
+                controller?.updateValue(
                   controller!.value.copyWith(errorCode: errorCode),
                 );
               },
