@@ -185,8 +185,10 @@ class _RawYoutubePlayerState extends State<RawYoutubePlayer>
             ..addJavaScriptHandler(
               handlerName: 'Errors',
               callback: (args) {
+                final errorArg = args.first;
+                final String errorCode = errorArg?.toString() ?? 'unknown';
                 controller!.updateValue(
-                  controller!.value.copyWith(errorCode: int.parse(args.first)),
+                  controller!.value.copyWith(errorCode: errorCode),
                 );
               },
             )
